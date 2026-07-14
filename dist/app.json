@@ -5,8 +5,8 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#10b981",
     "navigationBarTitleText": "光伏报价",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "white"
   }
 }
