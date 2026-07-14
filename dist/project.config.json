@@ -1,0 +1,24 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "pv-quote",
+  "description": "光伏报价小程序",
+  "appid": "wxddb4512cd9909eac",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "enhance": false,
+    "compileHotReLoad": false,
+    "postcss": false,
+    "minified": false,
+    "lazyCodeLoading": "requiredComponents"
+  },
+  "compileType": "miniprogram",
+  "packOptions": {
+    "ignore": [
+      {
+        "type": "folder",
+        "value": "./assets"
+      }
+    ]
+  }
+}
