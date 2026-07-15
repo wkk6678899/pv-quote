@@ -1,20 +1,17 @@
 {
   "miniprogramRoot": "./",
-  "projectname": "pv-quote",
-  "description": "光伏报价小程序",
-  "appid": "wxddb4512cd9909eac",
+  "projectname": "coze-mini-program",
+  "description": "test",
+  "appid": "touristappid",
   "setting": {
     "urlCheck": true,
     "es6": false,
     "enhance": false,
     "compileHotReLoad": false,
     "postcss": false,
-    "minified": false,
-    "lazyCodeLoading": "requiredComponents"
+    "minified": false
   },
   "compileType": "miniprogram",
-  "cloudfunctionRoot": "cloud/functions/",
-  "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
   "packOptions": {
     "ignore": [
       {
