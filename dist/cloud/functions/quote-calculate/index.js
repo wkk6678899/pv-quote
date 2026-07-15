@@ -153,7 +153,7 @@ function calculateQuoteItems(params) {
   })
 
   // 03. 配电箱：根据安装功率分段
-  const配电箱UnitPrice = get配电箱Price(installPower)
+  const distributionBoxUnitPrice = get配电箱Price(installPower)
   items.push({
     seq: '03',
     category: '光伏系统',
@@ -161,8 +161,8 @@ function calculateQuoteItems(params) {
     spec: get配电箱Spec(gridVoltage, installPower),
     unit: '台',
     quantity: 1,
-    unitPrice: 配电箱UnitPrice,
-    amount: 配电箱UnitPrice
+    unitPrice: distributionBoxUnitPrice,
+    amount: distributionBoxUnitPrice
   })
 
   // 04. 交流线缆
