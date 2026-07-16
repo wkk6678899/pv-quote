@@ -106,20 +106,55 @@ const QuotePage = () => {
     if (!quote) return
     setDownloading(true)
     try {
-      const res = await Network.request({
-        url: `/api/quote/export/excel/${quote.quoteId}`,
-        method: 'GET',
-      })
-      console.log('Excel导出响应:', res.data)
-      if (res.data && res.statusCode === 200) {
-        const data = res.data as { fileUrl: string; fileName: string }
-        // 下载文件
-        if (typeof window !== 'undefined') {
-          window.open(data.fileUrl, '_blank')
+      // 使用云函数生成 Excel
+      const res = await Taro.cloud.callFunction({
+        name: 'quote-export',
+        data: {
+          quoteId: quote.quoteId
         }
+      })
+      console.log('Excel导出响应:', res.result)
+      const result = res.result as { code: number; msg: string; data: { fileID: string; fileName: string } } | null
+      
+      if (result && result.code === 200) {
+        // 获取临时下载链接
+        const fileRes = await Taro.cloud.getTempFileURL({
+          fileList: [result.data.fileID]
+        })
+        console.log('临时文件链接:', fileRes.fileList)
+        
+        if (fileRes.fileList && fileRes.fileList[0] && fileRes.fileList[0].tempFileURL) {
+          const tempFileURL = fileRes.fileList[0].tempFileURL
+          // 下载文件
+          Taro.downloadFile({
+            url: tempFileURL,
+            success: (res) => {
+              console.log('下载成功:', res)
+              // 打开文件
+              Taro.openDocument({
+                filePath: res.tempFilePath,
+                showMenu: true,
+                success: () => {
+                  console.log('打开成功')
+                },
+                fail: (err) => {
+                  console.error('打开失败:', err)
+                  Taro.showToast({ title: '打开文件失败', icon: 'none' })
+                }
+              })
+            },
+            fail: (err) => {
+              console.error('下载失败:', err)
+              Taro.showToast({ title: '下载失败', icon: 'none' })
+            }
+          })
+        }
+      } else {
+        Taro.showToast({ title: result?.msg || '导出失败', icon: 'none' })
       }
     } catch (error) {
       console.error('导出Excel失败:', error)
+      Taro.showToast({ title: '导出失败', icon: 'none' })
     } finally {
       setDownloading(false)
     }
