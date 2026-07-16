@@ -14,18 +14,21 @@ exports.main = async (event, context) => {
   try {
     const { quoteId } = event
     
-    // 从数据库获取报价单
+    // 从数据库获取报价单（用 quoteId 字段查询，不是 _id）
     const db = cloud.database()
-    const quoteResult = await db.collection('quotes').doc(quoteId).get()
-    const quote = quoteResult.data
+    const quoteResult = await db.collection('quotes').where({
+      quoteId: quoteId
+    }).get()
     
-    if (!quote) {
+    if (!quoteResult.data || quoteResult.data.length === 0) {
       return {
         code: 404,
         msg: '报价单不存在',
         data: null
       }
     }
+    
+    const quote = quoteResult.data[0]
     
     // 生成 Excel
     const workbook = new ExcelJS.Workbook()
